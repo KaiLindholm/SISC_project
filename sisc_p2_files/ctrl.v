@@ -86,29 +86,61 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
         /*TODO: Set PC_RST*/
         pc_rst = 1'b1; 
       end
-
       fetch:
       begin
-        /*TODO: Set IR_LOAD and PC_WRITE*/
-        ir_load = 
+        ir_load = 1'b1; // load the ir with the next instruction 
+        pc_sel = 1'b0;  // load PC + 1 
       end
 
       decode:
       begin
-        /*TODO: Set PC_SEL and set BR_SEL and PC_WRITE based on different instructions*/
-        case(opcode) BRA, BRR, BNE, BNR: 
-          begin: 
-            pc_sel = 1'b1;
-            br_sel = 1'b1; 
-            pc_write = 1'b1;
-          end 
-          default: 
-            begin: 
-              pc_sel = 1'b0;
-              br_sel = 1'b0; 
-              pc_write = 1'b0;
+        case(opcode)
+          BRA: 
+            if((mm & stat) != 0) begin    // branch when any of the intruction cc bits are set to 1 AND the corresponding bits in the stat reg are 1 as well
+              pc_sel = 1'b1; // save the branch address to pc 
+              br_sel = 1'b0; // absolute branching. 
+              pc_write = 1'b1; // write new value to the pc. 
+            end else begin  // the branch is not taken 
+              pc_sel = 1'b0; // write PC + 1 to the pc 
+              br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
+              pc_write = 1'b1;  // write the new value to PC 
             end 
-        endcase
+          BRR: 
+            if((mm & stat) != 0) begin    // branch when any of the intruction cc bits are set to 1 AND the corresponding bits in the stat reg are 1 as well
+                pc_sel = 1'b1; // save the branch address to pc 
+                br_sel = 1'b1; // relative branching. 
+                pc_write = 1'b1; // write new value to the pc. 
+              end else begin  // the branch is not taken 
+                pc_sel = 1'b0; // write PC + 1 to the pc 
+                br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
+                pc_write = 1'b1;  // write the new value to PC 
+              end
+          BNE: 
+            if((mm & stat) == 0) begin    //  branch is not taken 
+                pc_sel = 1'b0; // write PC + 1 to the pc 
+                br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
+                pc_write = 1'b1;  // write the new value to PC 
+              end else begin  // the branch is taken 
+                pc_sel = 1'b1; // save the branch address to pc 
+                br_sel = 1'b1; // absolute branching. 
+                pc_write = 1'b1; // write new value to the pc. 
+              end
+           BNR: 
+            if((mm & stat) == 0) begin    //  branch is not taken 
+                pc_sel = 1'b0; // next instruciton 
+                br_sel = 1'b1; // add pc + 1 to 0. 
+                pc_write = 1'b1;  // write the new value to PC 
+              end else begin  // the branch is taken 
+                pc_sel = 1'b1; // save the branch address to pc 
+                br_sel = 1'b0; // relative branching. 
+                pc_write = 1'b1; // write new value to the pc. 
+              end
+            default:    // any other instruction is just going to increment the pc and go to the next intruction
+              pc_sel = 1'b0; // next instruction is taken 
+              br_sel = 1'b1; 
+              pc_write = 1'b1; 
+        endcase 
+        
       end
 
       execute:
