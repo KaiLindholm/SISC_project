@@ -1,0 +1,287 @@
+m255
+K4
+z2
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/klndholm/Documents/SISC_project/sisc_p2_files
+valu
+Z1 !s110 1681589963
+!i10b 1
+!s100 ?FYPeRc<O_A68BlhmbGOi1
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+ISKH:K^m80iUN1>C_1bMWD2
+R0
+Z3 w1681587833
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/alu.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/alu.v
+!i122 7
+L0 6 165
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OP;L;2020.3;71
+r1
+!s85 0
+31
+Z6 !s108 1681589963.000000
+!s107 C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/statreg.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc_tb_p2.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/rf.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/pc.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux32.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux4.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ir.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/im.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ctrl.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/br.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/alu.v|
+Z7 !s90 -reportprogress|300|-work|work|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/alu.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/br.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ctrl.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/im.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ir.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux4.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux32.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/pc.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/rf.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc_tb_p2.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/statreg.v|
+!i113 1
+Z8 o-work work
+Z9 tCvgOpt 0
+vbr
+R1
+!i10b 1
+!s100 >VMbEzMU9SmF^SD]BcS972
+R2
+I;=f6oJ3DNTo;2ocj[MZOe0
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/br.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/br.v
+!i122 7
+L0 6 40
+R4
+R5
+r1
+!s85 0
+31
+R6
+Z10 !s107 C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/statreg.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc_tb_p2.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/rf.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/pc.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux32.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux4.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ir.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/im.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ctrl.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/br.v|C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/alu.v|
+R7
+!i113 1
+R8
+R9
+vctrl
+R1
+!i10b 1
+!s100 FaOYADVI[^L5ADJ`UP5R_1
+R2
+IgTHl:Ocn3TO8;ZI;=J7@V1
+R0
+w1681588177
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ctrl.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ctrl.v
+!i122 7
+L0 8 193
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vim
+R1
+!i10b 1
+!s100 >3?gDEl2GB3@@laE7ZIRR0
+R2
+IZkcM>3WEOoCQACz:9zh[@1
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/im.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/im.v
+!i122 7
+L0 6 32
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vir
+R1
+!i10b 1
+!s100 Y=ZB>@]hoFbXD1D`4MBBO3
+R2
+IFLU6KPAaRfGSaIAKVSG_X0
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ir.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/ir.v
+!i122 7
+Z11 L0 6 36
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vmux32
+R1
+!i10b 1
+!s100 :X@CNUBVz0Z;aCJ_OFS[b2
+R2
+I1DOSDddb_OQFo88Ma4C@G2
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux32.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux32.v
+!i122 7
+L0 6 33
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vmux4
+R1
+!i10b 1
+!s100 RE<We:R5;YY3KVTVmMe_A2
+R2
+I4z8gFzj7z^dZ[BgI9F4eF2
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux4.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/mux4.v
+!i122 7
+L0 6 31
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vpc
+R1
+!i10b 1
+!s100 UdNg0Qb6o=;7cG4<IKYf<2
+R2
+IBeOeHkKQ?mSR?S`?<zY_82
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/pc.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/pc.v
+!i122 7
+L0 6 50
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vrf
+R1
+!i10b 1
+!s100 8XAjmi[>K`TmI[OID@j8L0
+R2
+IlkPklzRBXXmC7ogMeOYOO1
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/rf.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/rf.v
+!i122 7
+L0 6 66
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vsisc
+R1
+!i10b 1
+!s100 YJb6E6jjz1Z;ENZOH^9WB2
+R2
+IVi8O08SmCJb<6AU=?X:aH1
+R0
+w1681589538
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc.v
+!i122 7
+L0 6 37
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vsisc_tb
+R1
+!i10b 1
+!s100 oDlPMehULl8@7^2S>gK3Z1
+R2
+I^eZzZ6bomCCof6=FNPGTE2
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc_tb_p2.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/sisc_tb_p2.v
+!i122 7
+R11
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
+vstatreg
+R1
+!i10b 1
+!s100 MJkL87QlS:::zz=oZ=a3h3
+R2
+IOH2<6<1:8ERMMMG>8mo5f0
+R0
+R3
+8C:/Users/klndholm/Documents/SISC_project/sisc_p2_files/statreg.v
+FC:/Users/klndholm/Documents/SISC_project/sisc_p2_files/statreg.v
+!i122 7
+L0 6 34
+R4
+R5
+r1
+!s85 0
+31
+R6
+R10
+R7
+!i113 1
+R8
+R9
