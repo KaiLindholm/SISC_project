@@ -33,8 +33,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
      edge of the clock, OR resets the state to 'start1' on the negative edge
      of rst_f. Notice that the computer is reset when rst_f is low, not high. */
 
-  always @(posedge clk, negedge rst_f)
-  begin
+  always @(posedge clk, negedge rst_f) begin
     if (rst_f == 1'b0)
       present_state <= start1;
     else
@@ -43,14 +42,13 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
   
   /* Combinational procedure that determines the next state of the fsm. */
 
-  always @(present_state, rst_f)
-  begin
+  always @(present_state, rst_f) begin
     case(present_state)
       start0:
         next_state = start1;
       start1:
 	if (rst_f == 1'b0) 
-          next_state = start1;
+      next_state = start1;
 	else
           next_state = fetch;
       fetch:
@@ -68,8 +66,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
     endcase
   end
   
-  always @(present_state, opcode, mm)
-  begin
+  always @(present_state, opcode, mm) begin
     rf_we  = 1'b0;
     wb_sel = 1'b0;
     alu_op = 2'b10;
@@ -81,22 +78,18 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
     ir_load = 1'b0;
 
     case(present_state)
-     start1:
-      begin
-        /*TODO: Set PC_RST*/
+      start1: begin
         pc_rst = 1'b1; 
       end
-      fetch:
-      begin
+      fetch: begin
         ir_load = 1'b1; // load the ir with the next instruction 
         pc_sel = 1'b0;  // load PC + 1 
       end
 
-      decode:
-      begin
+      decode: begin
         case(opcode)
           BRA: begin
-            if((mm & stat) != 0) begin    // branch when any of the intruction cc bits are set to 1 AND the corresponding bits in the stat reg are 1 as well
+            if((4'b0011 & stat) != 0) begin    // branch when any of the intruction cc bits are set to 1 AND the corresponding bits in the stat reg are 1 as well
               pc_sel = 1'b1; // save the branch address to pc 
               br_sel = 1'b0; // absolute branching. 
               pc_write = 1'b1; // write new value to the pc. 
@@ -105,9 +98,9 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
               br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
               pc_write = 1'b1;  // write the new value to PC 
             end 
-	   end 
+	        end 
           BRR: begin
-            if((mm & stat) != 0) begin    // branch when any of the intruction cc bits are set to 1 AND the corresponding bits in the stat reg are 1 as well
+            if((4'b0011 & stat) != 0) begin    // branch when any of the intruction cc bits are set to 1 AND the corresponding bits in the stat reg are 1 as well
                 pc_sel = 1'b1; // save the branch address to pc 
                 br_sel = 1'b1; // relative branching. 
                 pc_write = 1'b1; // write new value to the pc. 
@@ -116,9 +109,9 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
                 br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
                 pc_write = 1'b1;  // write the new value to PC 
               end
-            end
+          end
           BNE: begin
-            if((mm & stat) == 0) begin    //  branch is not taken 
+            if((4'b0010 & stat) == 0) begin    //  branch is not taken 
                 pc_sel = 1'b0; // write PC + 1 to the pc 
                 br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
                 pc_write = 1'b1;  // write the new value to PC 
@@ -129,7 +122,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
               end
            end
            BNR: begin 
-            if((mm & stat) == 0) begin    //  branch is not taken 
+            if((4'b0010 & stat) == 0) begin    //  branch is not taken 
                 pc_sel = 1'b0; // next instruciton 
                 br_sel = 1'b1; // add pc + 1 to 0. 
                 pc_write = 1'b1;  // write the new value to PC 
@@ -138,7 +131,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
                 br_sel = 1'b0; // relative branching. 
                 pc_write = 1'b1; // write new value to the pc. 
               end
-	    end
+	          end
             default: begin   // any other instruction is just going to increment the pc and go to the next intruction
               pc_sel = 1'b0; // next instruction is taken 
               br_sel = 1'b1; 
@@ -147,41 +140,35 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
         endcase 
       end
 
-      execute:
-      begin
+      execute: begin
         if ((opcode == ALU_OP) && (mm == AM_IMM))
           alu_op = 2'b01;
         else
           alu_op = 2'b00;
       end
 
-      mem:
-      begin
+      mem: begin
         if ((opcode == ALU_OP) && (mm == AM_IMM))
           alu_op = 2'b11;
         else
           alu_op = 2'b10;
       end
 
-      writeback:
-      begin
+      writeback: begin
         if (opcode == ALU_OP)
           rf_we = 1'b1;  
       end
 
-      default:
-      begin
-
-      rf_we  = 1'b0;
-      wb_sel = 1'b0;
-      alu_op = 2'b10;
-      rb_sel = 1'b0;
-      br_sel = 1'b0; 
-      pc_rst = 1'b0; 
-      pc_write = 1'b0; 
-      pc_sel = 1'b0;
-      ir_load = 1'b0;
-  
+      default: begin
+        rf_we  = 1'b0;
+        wb_sel = 1'b0;
+        alu_op = 2'b10;
+        rb_sel = 1'b0;
+        br_sel = 1'b0; 
+        pc_rst = 1'b0; 
+        pc_write = 1'b0; 
+        pc_sel = 1'b0;
+        ir_load = 1'b0;
       end
     endcase
   end

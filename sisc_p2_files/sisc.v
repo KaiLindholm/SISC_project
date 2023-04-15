@@ -32,10 +32,9 @@ module sisc (clk, rst_f);
   ir u9(clk, ir_load, read_data, instr); // done
 
   im u10(pc_out, read_data);   // done
-
-// TODO: modify the $monitor statement as defined in Part2 description. 
+ 
   initial
-  $monitor($time,,"%h  %h  %h  %h  %h  %h  %h  %b  %b  %b  %b",instr, pc_out, u2.ram_array[1],u2.ram_array[2],u2.ram_array[3],u2.ram_array[4],u2.ram_array[5], alu_op, br_sel, pc_write, pc_sel);
+  $monitor($time,,"%h  %h  %h  %h  %h  %h  %b  %b  %b  %b",instr, pc_out, u2.ram_array[1],u2.ram_array[2],u2.ram_array[3],u2.ram_array[4],u2.ram_array[5], alu_op, br_sel, pc_write, pc_sel);
 
 
 
