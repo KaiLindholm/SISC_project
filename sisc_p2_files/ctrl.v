@@ -4,16 +4,15 @@
 `timescale 1ns/100ps
 
 
-//TODO: Add the additional 6 internal signals to the parameter list
-module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel);
 
-  /* TODO: Declare the additional internal signals listed above as inputs or outputs */
+module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel, 
+             rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load);
   
   input clk, rst_f;
   input [3:0] opcode, mm, stat;
-  output reg rf_we, wb_sel;
+  output reg rf_we, wb_sel, rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load;
   output reg [1:0] alu_op;
-  
+
   // state parameter declarations
   parameter start0 = 0, start1 = 1, fetch = 2, decode = 3, execute = 4, mem = 5, writeback = 6;
    
@@ -69,31 +68,47 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel);
     endcase
   end
   
-
-
-
   always @(present_state, opcode, mm)
   begin
-
-  /* TODO: Put your default assignments for the additional 6 internal signals here.  */
     rf_we  = 1'b0;
     wb_sel = 1'b0;
     alu_op = 2'b10;
-  
+    rb_sel = 1'b0;
+    br_sel = 1'b0; 
+    pc_rst = 1'b0; 
+    pc_write = 1'b0; 
+    pc_sel = 1'b0;
+    ir_load = 1'b0;
+
     case(present_state)
      start1:
       begin
         /*TODO: Set PC_RST*/
+        pc_rst = 1'b1; 
       end
 
       fetch:
       begin
         /*TODO: Set IR_LOAD and PC_WRITE*/
+        ir_load = 
       end
 
       decode:
       begin
         /*TODO: Set PC_SEL and set BR_SEL and PC_WRITE based on different instructions*/
+        case(opcode) BRA, BRR, BNE, BNR: 
+          begin: 
+            pc_sel = 1'b1;
+            br_sel = 1'b1; 
+            pc_write = 1'b1;
+          end 
+          default: 
+            begin: 
+              pc_sel = 1'b0;
+              br_sel = 1'b0; 
+              pc_write = 1'b0;
+            end 
+        endcase
       end
 
       execute:
@@ -120,11 +135,16 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel);
 
       default:
       begin
-      
-      /* TODO: Put your default assignments for the additional 6 internal signals here.  */
-        rf_we  = 1'b0;
-        wb_sel = 1'b0;
-        alu_op = 2'b10;
+
+      rf_we  = 1'b0;
+      wb_sel = 1'b0;
+      alu_op = 2'b10;
+      rb_sel = 1'b0;
+      br_sel = 1'b0; 
+      pc_rst = 1'b0; 
+      pc_write = 1'b0; 
+      pc_sel = 1'b0;
+      ir_load = 1'b0;
   
       end
     endcase
