@@ -1,0 +1,51 @@
+        case(opcode)
+          BRA: begin
+            if((mm & stat) != 0) begin   // branch taken
+              br_sel = 1'b1;    // take branch imm + 0. 
+              pc_sel = 1'b1;    // store branch address to pc. 
+              pc_write = 1'b1;  // write new value to the pc. 
+            end else begin      // the branch is not taken 
+              br_sel = 1'b1;    // branch not taken. we want to move ahead in the intrusctions
+              //pc_sel = 1'b0;    // PC + 1 
+              pc_write = 1'b1;  // write the new value to PC 
+            end 
+	        end 
+          BRR: begin
+            if((mm & stat) != 0) begin    // branch taken 
+                pc_sel = 1'b1; // save the branch address to pc 
+                br_sel = 1'b1; // branch address is imm + PC + 1
+                pc_write = 1'b1; // write new value to the pc. 
+              end else begin  // the branch is not taken 
+                //pc_sel = 1'b0; // write PC + 1 to the pc 
+                br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
+                pc_write = 1'b1;  // write the new value to PC 
+              end
+          end
+          BNE: begin
+            if((mm & stat) == 0) begin    //  branch is not taken 
+                pc_sel = 1'b0; // write PC + 1 to the pc 
+                br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
+                pc_write = 1'b1;  // write the new value to PC 
+              end else begin  // the branch is taken 
+                pc_sel = 1'b1; // save the branch address to pc 
+                br_sel = 1'b1; // absolute branching. 
+                pc_write = 1'b1; // write new value to the pc. 
+              end
+           end
+           BNR: begin 
+            if((4'b0010 & stat) == 0) begin    //  branch is not taken 
+                pc_sel = 1'b0; // next instruciton 
+                br_sel = 1'b1; // add pc + 1 to 0. 
+                pc_write = 1'b1;  // write the new value to PC 
+              end else begin  // the branch is taken 
+                pc_sel = 1'b1; // save the branch address to pc 
+                br_sel = 1'b0; // relative branching. 
+                pc_write = 1'b1; // write new value to the pc. 
+              end
+	          end
+            default: begin   // any other instruction is just going to increment the pc and go to the next intruction
+              pc_sel = 1'b0; // next instruction is taken 
+              br_sel = 1'b1; 
+              pc_write = 1'b1; 
+             end
+        endcase 

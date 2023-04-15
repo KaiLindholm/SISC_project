@@ -21,9 +21,9 @@ module sisc (clk, rst_f);
 
   mux4 u4 (instr[15:12], instr[23:20], rb_sel, rd_regb);  // changed sel to rb_sel 
 
-  mux32 u5 (alu_out, 32'h00000000, wb_sel, wr_dat); // no updated needed 
+  mux32 u5 (alu_out, 32'h00000000, wb_sel, wr_dat);       // no updated needed 
 
-  statreg u6(clk, alu_sts, stat_en, stat);    // no updates needed 
+  statreg u6(clk, alu_sts, stat_en, stat);                // no updates needed
 
   pc u7(clk, br_addr, pc_sel, pc_write, pc_rst, pc_out); // done
 
@@ -31,7 +31,7 @@ module sisc (clk, rst_f);
 
   ir u9(clk, ir_load, read_data, instr); // done
 
-  im u10(pc_out, read_data);   // done
+  im u10(pc_out, read_data);            // done
  
   initial
   $monitor($time,,"%h  %h  %h  %h  %h  %h  %b  %b  %b  %b",instr, pc_out, u2.ram_array[1],u2.ram_array[2],u2.ram_array[3],u2.ram_array[4],u2.ram_array[5], alu_op, br_sel, pc_write, pc_sel);
