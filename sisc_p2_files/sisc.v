@@ -34,7 +34,7 @@ module sisc (clk, rst_f);
   im u10(pc_out, read_data);            // done
  
   initial
-  $monitor($time,,"%h  %h  %h  %h  %h  %h  %b  %b  %b  %b",instr, pc_out, u2.ram_array[1],u2.ram_array[2],u2.ram_array[3],u2.ram_array[4],u2.ram_array[5], alu_op, br_sel, pc_write, pc_sel);
+  $monitor($time,,"%h  %b  %h  %h  %h  %h  %h  %h  %b  %b  %b  %b",instr, instr[27:24], pc_out, u2.ram_array[1],u2.ram_array[2],u2.ram_array[3],u2.ram_array[4],u2.ram_array[5], alu_op, br_sel, pc_write, pc_sel);
 
 
 
