@@ -5,9 +5,7 @@
 
 
 
-module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel, 
-		rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load);
-
+module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel, rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load);
   input clk, rst_f;
   input [3:0] opcode, mm, stat;
   output reg rf_we, wb_sel, rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load;
@@ -81,14 +79,15 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
 
     case(present_state)
       start1: begin
-        pc_rst = 1'b1; 
+        pc_rst <= 1'b1; 
       end
+      
       fetch: begin
-	ir_load <= 1'b1; // load the ir with the next instruction 	
-  	br_sel <= 1'b0;
-	pc_sel <= 1'b0;
+	ir_load <= 1'b1; // load the ir with the next instruction 
+	pc_sel <= 1'b0; 	
 	pc_write <= 1'b1; // write PC + 1 to pc_out 
       end
+
       decode: begin
         case(opcode)
           BRA: begin
@@ -98,13 +97,15 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
 	      pc_write <= 1'b1;           // write location of branch to PC
             end 
 	  end 
+
           BRR: begin
-	    br_sel = 1'b0;            // take relative branch
-            if((mm & stat) != 0) begin    // branch taken 
+	    br_sel <= 1'b0;            // take relative branch
+            if((mm & stat) != 0) begin    // branch taken
                 pc_sel <= 1'b1; 		  // save the branch address to pc 
                 pc_write <= 1'b1; 	  // write PC + 1 + branch address to PC 
             end 
           end
+
           BNE: begin
     	    br_sel <= 1'b1;             // take absolute branch
             if((mm & stat) == 0) begin    // branch taken
@@ -112,6 +113,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
 	      pc_write <= 1'b1;           // write location of branch to PC
             end 
           end
+
           BNR: begin 
    	    br_sel <= 1'b0;               // take relative branch
             if((mm & stat) == 0) begin    //  branch taken
@@ -119,8 +121,15 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
                pc_write <= 1'b1; 	    // write PC + 1 + branch address to PC 
             end
           end
-        endcase 
+	  default: begin
+            pc_sel <= 1'b0;
+	    br_sel <= 1'b0;
+	    pc_write <= 1'b0;
+	  end 
+        endcase
+	
       end
+
       execute: begin
         if ((opcode == ALU_OP) && (mm == AM_IMM))
           alu_op = 2'b01;
@@ -144,12 +153,6 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
         rf_we  = 1'b0;
         wb_sel = 1'b0;
         alu_op = 2'b10;
-        rb_sel = 1'b0;
-        br_sel = 1'b0; 
-        pc_rst = 1'b0; 
-        pc_write = 1'b0; 
-        pc_sel = 1'b0;
-        ir_load = 1'b0;
       end
     endcase
   end
