@@ -6,8 +6,8 @@
 
 
 module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel, 
-             rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load);
-  
+		rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load);
+
   input clk, rst_f;
   input [3:0] opcode, mm, stat;
   output reg rf_we, wb_sel, rb_sel, br_sel, pc_rst, pc_write, pc_sel, ir_load;
@@ -34,10 +34,11 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
      of rst_f. Notice that the computer is reset when rst_f is low, not high. */
 
   always @(posedge clk, negedge rst_f) begin
-    if (rst_f == 1'b0)
+    if (rst_f == 1'b0) begin
       present_state <= start1;
-    else
+    end else begin 
       present_state <= next_state;
+    end 
   end
   
   /* Combinational procedure that determines the next state of the fsm. */
@@ -47,7 +48,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
       start0:
         next_state = start1;
       start1:
-	if (rst_f == 1'b0) 
+	if (rst_f == 1'b0)
       next_state = start1;
 	else
           next_state = fetch;
@@ -70,6 +71,7 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
     rf_we  = 1'b0;
     wb_sel = 1'b0;
     alu_op = 2'b10;
+
     rb_sel = 1'b0;
     br_sel = 1'b0; 
     pc_rst = 1'b0; 
@@ -82,58 +84,43 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
         pc_rst = 1'b1; 
       end
       fetch: begin
-        ir_load = 1'b1; // load the ir with the next instruction 
-        pc_sel = 1'b0;  // load PC + 1 
+	ir_load <= 1'b1; // load the ir with the next instruction 	
+  	br_sel <= 1'b0;
+	pc_sel <= 1'b0;
+	pc_write <= 1'b1; // write PC + 1 to pc_out 
       end
-
       decode: begin
-        if(opcode == BRA) begin 
-         if((mm & stat) != 0) begin   // branch taken
-              br_sel = 1'b1;    // take branch imm + 0. 
-              pc_sel = 1'b1;    // store branch address to pc. 
-              pc_write = 1'b1;  // write new value to the pc. 
-            end else begin      // the branch is not taken 
-              br_sel = 1'b1;    // branch not taken. we want to move ahead in the intrusctions
-              //pc_sel = 1'b0;    // PC + 1 
-              pc_write = 1'b1;  // write the new value to PC 
+        case(opcode)
+          BRA: begin
+	    br_sel <= 1'b1;             // take absolute branch
+            if((mm & stat) != 0) begin   // branch taken
+              pc_sel <= 1'b1;             // store branch address to PC
+	      pc_write <= 1'b1;           // write location of branch to PC
             end 
-        end else if(opcode == BRR) begin 
-          if((mm & stat) != 0) begin    // branch taken 
-                  pc_sel = 1'b1; // save the branch address to pc 
-                  br_sel = 1'b1; // branch address is imm + PC + 1
-                  pc_write = 1'b1; // write new value to the pc. 
-          end else begin  // the branch is not taken 
-                  //pc_sel = 1'b0; // write PC + 1 to the pc 
-                  br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
-                  pc_write = 1'b1;  // write the new value to PC 
+	  end 
+          BRR: begin
+	    br_sel = 1'b0;            // take relative branch
+            if((mm & stat) != 0) begin    // branch taken 
+                pc_sel <= 1'b1; 		  // save the branch address to pc 
+                pc_write <= 1'b1; 	  // write PC + 1 + branch address to PC 
+            end 
           end
-        end else if(opcode == BNE) begin 
-          if((mm & stat) == 0) begin    //  branch is not taken 
-                pc_sel = 1'b0; // write PC + 1 to the pc 
-                br_sel = 1'b1; // branch not taken. we want to move ahead in the intrusctions 
-                pc_write = 1'b1;  // write the new value to PC 
-              end else begin  // the branch is taken 
-                pc_sel = 1'b1; // save the branch address to pc 
-                br_sel = 1'b1; // absolute branching. 
-                pc_write = 1'b1; // write new value to the pc. 
-              end
-        end else if(opcode == BNR) begin 
-          if((4'b0010 & stat) == 0) begin    //  branch is not taken 
-                pc_sel = 1'b0; // next instruciton 
-                br_sel = 1'b1; // add pc + 1 to 0. 
-                pc_write = 1'b1;  // write the new value to PC 
-              end else begin  // the branch is taken 
-                pc_sel = 1'b1; // save the branch address to pc 
-                br_sel = 1'b0; // relative branching. 
-                pc_write = 1'b1; // write new value to the pc. 
-              end
-        end else begin 
-          pc_sel = 1'b0; // next instruction is taken 
-              br_sel = 1'b1; 
-              pc_write = 1'b1; 
-        end 
+          BNE: begin
+    	    br_sel <= 1'b1;             // take absolute branch
+            if((mm & stat) == 0) begin    // branch taken
+              pc_sel <= 1'b1;             // store branch address to PC
+	      pc_write <= 1'b1;           // write location of branch to PC
+            end 
+          end
+          BNR: begin 
+   	    br_sel <= 1'b0;               // take relative branch
+            if((mm & stat) == 0) begin    //  branch taken
+               pc_sel <= 1'b1; 		    // save the branch address to pc 
+               pc_write <= 1'b1; 	    // write PC + 1 + branch address to PC 
+            end
+          end
+        endcase 
       end
-
       execute: begin
         if ((opcode == ALU_OP) && (mm == AM_IMM))
           alu_op = 2'b01;
@@ -176,6 +163,5 @@ module ctrl (clk, rst_f, opcode, mm, stat, rf_we, alu_op, wb_sel,
       $stop;
     end
   end
-    
-  
 endmodule
+
